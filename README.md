@@ -21,22 +21,27 @@ This Python script scrapes web pages, extracts data from `data-cmp-data-layer` a
 * **Libraries:** Install the required libraries using pip:
 ```bash
 pip install selenium beautifulsoup4 pandas json xlsxwriter Pillow
+
 ChromeDriver: Download the appropriate ChromeDriver executable for your Chrome browser version and place it in a location accessible by your system's PATH.
 Usage
+
 Clone the repository:
-git clone https://github.com/your-username/your-repository.git
+git clone [https://github.com/scottehastings16/coke-web-driver.git]
+
 Update URLs: Modify the my_urls list in the script to include the URLs you want to scrape.
+
 Run the script:
-python your_script_name.py
+python coke-web-driver.py
 Output: The script will create an Excel file named output.xlsx in the specified directory (currently C:/Users/scott/Downloads/), containing the scraped data and screenshots. **Update this path if needed.**
-Configuration
-my_urls: List of URLs to scrape.
-screenshot_dir: Directory to store screenshots. Defaults to "screenshots".
-output.xlsx Path: Update the path in the workbook = xlsxwriter.Workbook() line if needed.
-Image Resizing: Adjust max_width and max_height variables to control the maximum dimensions of screenshots in the Excel file.
+
+##Configuration
+**my_urls:** List of URLs to scrape.
+**screenshot_dir:** Directory to store screenshots. Defaults to "screenshots".
+**output.xlsx Path:** Update the path in the workbook = xlsxwriter.Workbook() line if needed.
+**Image Resizing:** Adjust max_width and max_height variables to control the maximum dimensions of screenshots in the Excel file.
 Code Structure
 The script is organized into several functions:
 
-rename_key(key): Renames specific keys in the extracted JSON for clarity.
-Main loop: Iterates through the URLs, extracts data, captures screenshots, and stores the information.
-Excel Export: Creates an Excel workbook and writes the data and images to a worksheet.
+* **rename_key(key):** Renames specific keys in the extracted JSON for clarity.
+* **Main loop:** Iterates through the URLs, extracts data, captures screenshots, and stores the information.
+* **Excel Export:** Creates an Excel workbook and writes the data and images to a worksheet.
