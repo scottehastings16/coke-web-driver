@@ -34,14 +34,14 @@ Run the script:
 python coke-web-driver.py
 Output: The script will create an Excel file named output.xlsx in the specified directory (currently C:/Users/scott/Downloads/), containing the scraped data and screenshots. **Update this path if needed.**
 
-##Configuration
-**my_urls:** List of URLs to scrape.
-**screenshot_dir:** Directory to store screenshots. Defaults to "screenshots".
-**output.xlsx Path:** Update the path in the workbook = xlsxwriter.Workbook() line if needed.
-**Image Resizing:** Adjust max_width and max_height variables to control the maximum dimensions of screenshots in the Excel file.
+## Configuration
+my_urls: List of URLs to scrape.
+screenshot_dir: Directory to store screenshots. Defaults to "screenshots".
+output.xlsx Path: Update the path in the workbook = xlsxwriter.Workbook() line if needed.
+Image Resizing: Adjust max_width and max_height variables to control the maximum dimensions of screenshots in the Excel file.
 Code Structure
 The script is organized into several functions:
 
-* **rename_key(key):** Renames specific keys in the extracted JSON for clarity.
-* **Main loop:** Iterates through the URLs, extracts data, captures screenshots, and stores the information.
-* **Excel Export:** Creates an Excel workbook and writes the data and images to a worksheet.
+rename_key(key): Renames specific keys in the extracted JSON for clarity.
+Main loop: Iterates through the URLs, extracts data, captures screenshots, and stores the information.
+Excel Export: Creates an Excel workbook and writes the data and images to a worksheet.
