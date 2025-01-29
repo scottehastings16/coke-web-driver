@@ -1,5 +1,8 @@
-selenium
-bs4
+streamlit
 pandas
-PIL
-hashlib
+selenium
+beautifulsoup4
+lxml
+openpyxl
+xlsxwriter
+pillow
