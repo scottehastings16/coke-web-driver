@@ -15,10 +15,26 @@ from PIL import Image
 import hashlib
 import time  # Import time module for sleep
 
-# Function to Install Chromedriver
+# Function to get installed chromedriver version
+def get_installed_chromedriver_version():
+    try:
+        result = subprocess.run(["chromedriver", "--version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        version = result.stdout.decode("utf-8").split()[1]
+        return version
+    except Exception as e:
+        print(f"Error fetching installed chromedriver version: {e}")
+        return None
+
+# Function to install Chromedriver
 def install_chromedriver():
     chromedriver_url = "https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip"
-    
+    current_version = get_installed_chromedriver_version()
+    desired_version = "114.0.5735.90"  # Update this to the desired version
+
+    if current_version == desired_version:
+        print("Chromedriver is already up-to-date.")
+        return  # Exit early if the version is correct
+
     try:
         print("Downloading Chromedriver...")
         subprocess.run(f"wget {chromedriver_url} -O chromedriver_linux64.zip", shell=True, check=True)
@@ -30,7 +46,7 @@ def install_chromedriver():
         print(f" Error installing Chromedriver: {e}")
         exit(1)  # Exit script if installation fails
 
-# Install Chromedriver
+# Install Chromedriver if not up-to-date
 install_chromedriver()
 
 # Configure Chrome options for headless execution
@@ -49,6 +65,7 @@ driver = webdriver.Chrome(service=Service(chromedriver_path), options=chrome_opt
 
 # Debug: Print to confirm headless mode is active
 print("WebDriver initialized in headless mode.")
+
 
 
 # List of URLs to scrape
