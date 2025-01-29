@@ -27,11 +27,11 @@ def get_installed_chromedriver_version():
 
 # Function to install Chromedriver in a custom directory
 def install_chromedriver():
-    chromedriver_url = "https://chromedriver.storage.googleapis.com/120.0.6099.224/chromedriver_linux64.zip"  # Update the URL to match Chrome version 120
+    chromedriver_url = "https://storage.googleapis.com/chrome-for-testing-public/132.0.6834.159/linux64/chrome-headless-shell-linux64.zip"  # Update the URL to match Chrome version 120
     chromedriver_dir = os.path.join(os.getcwd(), 'chromedriver')  # Install to the current working directory
     
     current_version = get_installed_chromedriver_version()
-    desired_version = "120.0.6099.224"  # Update this to the desired version
+    desired_version = "132.0.6834.159"  # Update this to the desired version
 
     if current_version == desired_version:
         print("Chromedriver is already up-to-date.")
