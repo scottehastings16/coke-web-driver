@@ -15,51 +15,22 @@ from PIL import Image
 import hashlib
 import time  # Import time module for sleep
 
-# Function to get installed chromedriver version
-def get_installed_chromedriver_version():
-    try:
-        result = subprocess.run(["chromedriver", "--version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        version = result.stdout.decode("utf-8").split()[1]
-        return version
-    except Exception as e:
-        print(f"Error fetching installed chromedriver version: {e}")
+# Skip downloading and installing chromedriver; just check if it's available
+def get_installed_chromedriver_path():
+    chromedriver_path = "/usr/bin/chromedriver"  # Adjust this path to where chromedriver is installed, if needed
+    
+    if os.path.exists(chromedriver_path):
+        print(f"Chromedriver found at {chromedriver_path}")
+        return chromedriver_path
+    else:
+        print("Chromedriver not found. Please install the correct version.")
         return None
 
-# Function to install Chromedriver in a custom directory
-def install_chromedriver():
-    chromedriver_url = "https://chromedriver.storage.googleapis.com/132.0.6834.160/chromedriver_linux64.zip"  # Updated URL to match Chrome version 132.0.6834.160
-    chromedriver_dir = os.path.join(os.getcwd(), 'chromedriver')  # Install to the current working directory
-    
-    current_version = get_installed_chromedriver_version()
-    desired_version = "132.0.6834.160"  # Updated version to match Chrome version 132.0.6834.160
+# Use system's existing chromedriver
+chromedriver_path = get_installed_chromedriver_path()
 
-    if current_version == desired_version:
-        print("Chromedriver is already up-to-date.")
-        return  # Exit early if the version is correct
-
-    try:
-        print("Downloading Chromedriver...")
-        subprocess.run(f"wget -q -O chromedriver_linux64.zip {chromedriver_url}", shell=True, check=True)
-        
-        # Unzip the file
-        subprocess.run("unzip -o chromedriver_linux64.zip", shell=True, check=True)
-        
-        # Make the downloaded chromedriver executable
-        subprocess.run("chmod +x chromedriver", shell=True, check=True)
-
-        # Only move the file if it does not already exist at the destination
-        if not os.path.exists(chromedriver_dir):
-            subprocess.run(f"mv -f chromedriver {chromedriver_dir}", shell=True, check=True)
-            print(f"Chromedriver installed successfully to {chromedriver_dir}")
-        else:
-            print(f"Chromedriver already exists at {chromedriver_dir}, skipping move.")
-
-    except subprocess.CalledProcessError as e:
-        print(f"Error installing Chromedriver: {e}")
-        exit(1)  # Exit script if installation fails
-
-# Install Chromedriver if not up-to-date
-install_chromedriver()
+if chromedriver_path is None:
+    exit(1)  # Exit if chromedriver is not found
 
 # Configure Chrome options for headless execution
 chrome_options = Options()
@@ -68,9 +39,6 @@ chrome_options.add_argument("--no-sandbox")  # Required for running as root in c
 chrome_options.add_argument("--disable-dev-shm-usage")  # Fix memory issues
 chrome_options.add_argument("--window-size=1920x1080")  # Ensures elements are visible
 chrome_options.add_argument("--disable-gpu")  # Fixes issues in some environments
-
-# Define the path to Chromedriver (local path)
-chromedriver_path = os.path.join(os.getcwd(), 'chromedriver')  # Using the local chromedriver path
 
 # Initialize WebDriver with service and options
 driver = webdriver.Chrome(service=Service(chromedriver_path), options=chrome_options)
