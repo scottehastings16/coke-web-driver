@@ -27,11 +27,11 @@ def get_installed_chromedriver_version():
 
 # Function to install Chromedriver in a custom directory
 def install_chromedriver():
-    chromedriver_url = "https://storage.googleapis.com/chrome-for-testing-public/132.0.6834.159/linux64/chrome-headless-shell-linux64.zip"  # Update the URL to match Chrome version 120
+    chromedriver_url = "https://chromedriver.storage.googleapis.com/132.0.6834.160/chromedriver_linux64.zip"  # Updated URL to match Chrome version 132.0.6834.160
     chromedriver_dir = os.path.join(os.getcwd(), 'chromedriver')  # Install to the current working directory
     
     current_version = get_installed_chromedriver_version()
-    desired_version = "132.0.6834.159"  # Update this to the desired version
+    desired_version = "132.0.6834.160"  # Updated version to match Chrome version 132.0.6834.160
 
     if current_version == desired_version:
         print("Chromedriver is already up-to-date.")
@@ -77,7 +77,6 @@ driver = webdriver.Chrome(service=Service(chromedriver_path), options=chrome_opt
 
 # Debug: Print to confirm headless mode is active
 print("WebDriver initialized in headless mode.")
-
 
 # List of URLs to scrape
 my_urls = [
@@ -249,7 +248,6 @@ for row in range(1, len(data_layers_df) + 1):
     worksheet.set_row(row, max_row_height)
 
 print(f"Set all rows to minimum height: {max_row_height}")
-
 
 # Close workbook and driver
 workbook.close()
