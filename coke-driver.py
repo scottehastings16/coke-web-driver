@@ -1,5 +1,7 @@
 import pandas as pd
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -12,13 +14,25 @@ from PIL import Image
 import hashlib
 import time  # Import time module for sleep
 
-# Initialize the WebDriver
-driver = webdriver.Chrome()
-driver.implicitly_wait(10)  # Wait up to 10 seconds for elements to be found
+ Configure Chrome options for headless execution
+chrome_options = Options()
+chrome_options.add_argument("--headless")  # Run in headless mode (no UI)
+chrome_options.add_argument("--no-sandbox")  # Required for running as root in containers
+chrome_options.add_argument("--disable-dev-shm-usage")  # Fix memory issues
+chrome_options.add_argument("--window-size=1920x1080")  # Ensures elements are visible
+chrome_options.add_argument("--disable-gpu")  # Fixes issues in some environments
+
+# Define the path to Chromedriver (Ensure it's installed correctly)
+chromedriver_path = "/usr/local/bin/chromedriver"
+
+# Initialize WebDriver with service and options
+driver = webdriver.Chrome(service=Service(chromedriver_path), options=chrome_options)
+
+# Debug: Print to confirm headless mode is active
+print("WebDriver initialized in headless mode.")
 
 # List of URLs to scrape
 my_urls = [
-    "https://www.coca-cola.com/us/en/brands/vitaminwater",
 ]
 
 # Create a directory for screenshots
