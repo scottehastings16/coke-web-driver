@@ -41,20 +41,22 @@ def install_chromedriver():
         print("Downloading Chromedriver...")
         subprocess.run(f"wget -q -O chromedriver_linux64.zip {chromedriver_url}", shell=True, check=True)
         
-        # Unzip the file and overwrite existing chromedriver
+        # Unzip the file
         subprocess.run("unzip -o chromedriver_linux64.zip", shell=True, check=True)
         
         # Make the downloaded chromedriver executable
         subprocess.run("chmod +x chromedriver", shell=True, check=True)
-        
-        # Move it to the custom directory (no sudo required)
-        subprocess.run(f"mv -f chromedriver {chromedriver_dir}", shell=True, check=True)
-        
-        print(f"Chromedriver installed successfully to {chromedriver_dir}")
+
+        # Only move the file if it does not already exist at the destination
+        if not os.path.exists(chromedriver_dir):
+            subprocess.run(f"mv -f chromedriver {chromedriver_dir}", shell=True, check=True)
+            print(f"Chromedriver installed successfully to {chromedriver_dir}")
+        else:
+            print(f"Chromedriver already exists at {chromedriver_dir}, skipping move.")
+
     except subprocess.CalledProcessError as e:
         print(f"Error installing Chromedriver: {e}")
         exit(1)  # Exit script if installation fails
-
 # Install Chromedriver if not up-to-date
 install_chromedriver()
 
