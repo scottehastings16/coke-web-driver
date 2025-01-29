@@ -27,11 +27,11 @@ def get_installed_chromedriver_version():
 
 # Function to install Chromedriver in a custom directory
 def install_chromedriver():
-    chromedriver_url = "https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip"
+    chromedriver_url = "https://chromedriver.storage.googleapis.com/120.0.6099.224/chromedriver_linux64.zip"  # Update the URL to match Chrome version 120
     chromedriver_dir = os.path.join(os.getcwd(), 'chromedriver')  # Install to the current working directory
     
     current_version = get_installed_chromedriver_version()
-    desired_version = "114.0.5735.90"  # Update this to the desired version
+    desired_version = "120.0.6099.224"  # Update this to the desired version
 
     if current_version == desired_version:
         print("Chromedriver is already up-to-date.")
@@ -57,6 +57,7 @@ def install_chromedriver():
     except subprocess.CalledProcessError as e:
         print(f"Error installing Chromedriver: {e}")
         exit(1)  # Exit script if installation fails
+
 # Install Chromedriver if not up-to-date
 install_chromedriver()
 
