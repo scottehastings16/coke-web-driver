@@ -28,22 +28,33 @@ def get_installed_chromedriver_version():
 # Function to install Chromedriver
 def install_chromedriver():
     chromedriver_url = "https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip"
+    
+    # Check if chromedriver is already installed
     current_version = get_installed_chromedriver_version()
-    desired_version = "114.0.5735.90"  # Update this to the desired version
-
+    desired_version = "114.0.5735.90"  # You can update this to match your version
+    
     if current_version == desired_version:
         print("Chromedriver is already up-to-date.")
-        return  # Exit early if the version is correct
-
+        return  # Skip installation if the correct version is already installed
+    
     try:
         print("Downloading Chromedriver...")
-        subprocess.run(f"wget {chromedriver_url} -O chromedriver_linux64.zip", shell=True, check=True)
-        subprocess.run("unzip chromedriver_linux64.zip", shell=True, check=True)
+        
+        # Download the chromedriver zip file, overwrite if it already exists
+        subprocess.run(f"wget -q -O chromedriver_linux64.zip {chromedriver_url}", shell=True, check=True)
+        
+        # Unzip the file and overwrite existing chromedriver
+        subprocess.run("unzip -o chromedriver_linux64.zip", shell=True, check=True)
+        
+        # Make the downloaded chromedriver executable
         subprocess.run("chmod +x chromedriver", shell=True, check=True)
-        subprocess.run("mv chromedriver /usr/local/bin/", shell=True, check=True)
+        
+        # Move it to the correct location, overwrite if already exists
+        subprocess.run("mv -f chromedriver /usr/local/bin/", shell=True, check=True)
+        
         print("Chromedriver installed successfully!")
     except subprocess.CalledProcessError as e:
-        print(f" Error installing Chromedriver: {e}")
+        print(f"Error installing Chromedriver: {e}")
         exit(1)  # Exit script if installation fails
 
 # Install Chromedriver if not up-to-date
