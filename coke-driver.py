@@ -1,3 +1,5 @@
+import os
+import subprocess
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -8,13 +10,30 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import json
 from pandas import json_normalize
-import os
 import xlsxwriter
 from PIL import Image
 import hashlib
 import time  # Import time module for sleep
 
- Configure Chrome options for headless execution
+# Function to Install Chromedriver
+def install_chromedriver():
+    chromedriver_url = "https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip"
+    
+    try:
+        print("Downloading Chromedriver...")
+        subprocess.run(f"wget {chromedriver_url} -O chromedriver_linux64.zip", shell=True, check=True)
+        subprocess.run("unzip chromedriver_linux64.zip", shell=True, check=True)
+        subprocess.run("chmod +x chromedriver", shell=True, check=True)
+        subprocess.run("mv chromedriver /usr/local/bin/", shell=True, check=True)
+        print("Chromedriver installed successfully!")
+    except subprocess.CalledProcessError as e:
+        print(f" Error installing Chromedriver: {e}")
+        exit(1)  # Exit script if installation fails
+
+# Install Chromedriver
+install_chromedriver()
+
+# Configure Chrome options for headless execution
 chrome_options = Options()
 chrome_options.add_argument("--headless")  # Run in headless mode (no UI)
 chrome_options.add_argument("--no-sandbox")  # Required for running as root in containers
@@ -22,7 +41,7 @@ chrome_options.add_argument("--disable-dev-shm-usage")  # Fix memory issues
 chrome_options.add_argument("--window-size=1920x1080")  # Ensures elements are visible
 chrome_options.add_argument("--disable-gpu")  # Fixes issues in some environments
 
-# Define the path to Chromedriver (Ensure it's installed correctly)
+# Define the path to Chromedriver
 chromedriver_path = "/usr/local/bin/chromedriver"
 
 # Initialize WebDriver with service and options
@@ -30,6 +49,7 @@ driver = webdriver.Chrome(service=Service(chromedriver_path), options=chrome_opt
 
 # Debug: Print to confirm headless mode is active
 print("WebDriver initialized in headless mode.")
+
 
 # List of URLs to scrape
 my_urls = [
