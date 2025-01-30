@@ -1,4 +1,5 @@
 Flask==2.0.2
+werkzeug==2.0.2
 chromedriver-autoinstaller
 gunicorn
 pandas
