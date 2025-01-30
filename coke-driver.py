@@ -17,19 +17,18 @@ import time  # Import time module for sleep
 import chromedriver_autoinstaller  # Import chromedriver autoinstaller
 
 # Automatically download and install the correct chromedriver version
-chromedriver_path = chromedriver_autoinstaller.install()
+chromedriver_path = os.environ.get("CHROMEDRIVER_PATH", chromedriver_autoinstaller.install())
 
 # Print the path to the installed chromedriver
 print(f"Chromedriver installed at: {chromedriver_path}")
 
 # Configure Chrome options for headless execution
 chrome_options = Options()
-chrome_options.add_argument("--headless")  # Run in headless mode (no UI)
+chrome_options.add_argument("--headless")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--window-size=1920x1080")
 chrome_options.add_argument("--disable-gpu")
-
 # Initialize WebDriver with the correct chromedriver path
 driver = webdriver.Chrome(service=Service(chromedriver_path), options=chrome_options)
 
