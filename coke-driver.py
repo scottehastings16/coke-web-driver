@@ -15,36 +15,29 @@ from PIL import Image
 import hashlib
 import time  # Import time module for sleep
 
-# Skip downloading and installing chromedriver; just check if it's available
-def get_installed_chromedriver_path():
-    chromedriver_path = "/usr/bin/chromedriver"  # Adjust this path to where chromedriver is installed, if needed
-    
-    if os.path.exists(chromedriver_path):
-        print(f"Chromedriver found at {chromedriver_path}")
-        return chromedriver_path
-    else:
-        print("Chromedriver not found. Please install the correct version.")
-        return None
+# Define the explicit path to Chromedriver
+chromedriver_path = r"C:\Users\scott\coke-web-driver\chromedriver-win32\chromedriver.exe"
 
-# Use system's existing chromedriver
-chromedriver_path = get_installed_chromedriver_path()
 
-if chromedriver_path is None:
-    exit(1)  # Exit if chromedriver is not found
+
+
+# Ensure the file exists
+if not os.path.exists(chromedriver_path):
+    print(f"Error: Chromedriver not found at {chromedriver_path}. Please check the path.")
+    exit(1)
 
 # Configure Chrome options for headless execution
 chrome_options = Options()
 chrome_options.add_argument("--headless")  # Run in headless mode (no UI)
-chrome_options.add_argument("--no-sandbox")  # Required for running as root in containers
-chrome_options.add_argument("--disable-dev-shm-usage")  # Fix memory issues
-chrome_options.add_argument("--window-size=1920x1080")  # Ensures elements are visible
-chrome_options.add_argument("--disable-gpu")  # Fixes issues in some environments
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--window-size=1920x1080")
+chrome_options.add_argument("--disable-gpu")
 
-# Initialize WebDriver with service and options
+# Initialize WebDriver with the correct chromedriver path
 driver = webdriver.Chrome(service=Service(chromedriver_path), options=chrome_options)
 
-# Debug: Print to confirm headless mode is active
-print("WebDriver initialized in headless mode.")
+print("WebDriver initialized successfully!")
 
 # List of URLs to scrape
 my_urls = [
