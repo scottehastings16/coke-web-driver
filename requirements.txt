@@ -3,7 +3,7 @@ werkzeug==2.0.2
 chromedriver-autoinstaller
 gunicorn
 pandas
-selenium
+selenium>=4.6
 beautifulsoup4
 lxml
 openpyxl
