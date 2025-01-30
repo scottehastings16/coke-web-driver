@@ -20,7 +20,8 @@ import chromedriver_autoinstaller  # Import chromedriver autoinstaller
 os.environ["CHROME_BIN"] = "/app/.apt/usr/bin/google-chrome-stable"
 
 # Automatically download and install the correct chromedriver version
-chromedriver_path = os.environ.get("CHROMEDRIVER_PATH", chromedriver_autoinstaller.install())
+chromedriver_path = os.environ.get("CHROMEDRIVER_PATH", "/app/.heroku/chromedriver")
+
 
 # Print the path to the installed chromedriver
 print(f"Chromedriver installed at: {chromedriver_path}")
