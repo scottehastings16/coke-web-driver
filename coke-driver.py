@@ -14,17 +14,13 @@ import xlsxwriter
 from PIL import Image
 import hashlib
 import time  # Import time module for sleep
+import chromedriver_autoinstaller  # Import chromedriver autoinstaller
 
-# Define the explicit path to Chromedriver
-chromedriver_path = r"C:\Users\scott\coke-web-driver\chromedriver-win32\chromedriver.exe"
+# Automatically download and install the correct chromedriver version
+chromedriver_path = chromedriver_autoinstaller.install()
 
-
-
-
-# Ensure the file exists
-if not os.path.exists(chromedriver_path):
-    print(f"Error: Chromedriver not found at {chromedriver_path}. Please check the path.")
-    exit(1)
+# Print the path to the installed chromedriver
+print(f"Chromedriver installed at: {chromedriver_path}")
 
 # Configure Chrome options for headless execution
 chrome_options = Options()
@@ -41,6 +37,7 @@ print("WebDriver initialized successfully!")
 
 # List of URLs to scrape
 my_urls = [
+    # Add your URLs here
 ]
 
 # Create a directory for screenshots
