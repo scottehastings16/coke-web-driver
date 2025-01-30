@@ -1,30 +1,34 @@
+# routes.py
+import subprocess
+from flask import Blueprint, request, jsonify
+import json
+import time
 
+# Define the blueprint
+scrape_bp = Blueprint('scrape', __name__)
 
-
-from your_scraping_script import run_scraper
-
-app = Flask(__name__)
-
-# Route for the homepage (to show the URL input form)
-@app.route('/')
-def index():
-    return render_template('index.html')  # This is a template for your form (create this file)
-
-# Route to handle the URL submission
-@app.route('/scrape', methods=['POST'])
-def scrape():
-    # Get the URLs from the form submission
-    urls = request.form.getlist('urls')  # Get the list of URLs
-
-    if not urls:
-        return jsonify({"error": "No URLs provided"}), 400
-
-    # You can run the scraping function here (replace with your own logic)
+# Route to start the scraping process
+@scrape_bp.route('/scrape', methods=['POST'])
+def scrape_urls():
     try:
-        result = run_scraper(urls)  # Assuming this function scrapes URLs
-        return jsonify({"status": "success", "data": result}), 200
+        # Get URLs from the POST request
+        data = request.get_json()  # Expecting JSON payload
+        urls = data.get('urls', [])
+
+        if not urls:
+            return jsonify({"error": "No URLs provided"}), 400
+
+        # Call the python scraping script (coke-driver.py)
+        result = subprocess.run(['python', 'coke-driver.py', *urls], capture_output=True, text=True)
+
+        if result.returncode != 0:
+            return jsonify({"error": f"Scraping failed: {result.stderr}"}), 500
+
+        # If the scraping is successful, return success message
+        return jsonify({
+            "message": "Scraping completed successfully",
+            "output": result.stdout
+        })
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
